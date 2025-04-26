@@ -6,14 +6,14 @@ import { QuickViewPage } from '../screenobjects/quickview.page';
 import { AddToCartPage } from '../screenobjects/addToCart.page';
 import { validateWishlist, validateQuickView, validateAddToCart } from '../utils/workflows.helper';
 
-test.describe('Validate Bed Sheets', () => {
+test.describe('Validate Throws', () => {
     let homePage: HomePage;
     let productPage: ProductPage;
     let wishlistPage: WishlistPage;
     let quickViewPage: QuickViewPage;
     let addToCartPage: AddToCartPage;
     let title: string;
-    const INDEX = 0;
+    const INDEX = 1;
     let actualPrice: string;
     let deletedPrice: string;
 
@@ -35,7 +35,7 @@ test.describe('Validate Bed Sheets', () => {
 
     test('Wishlist Throws', async ({  }) => {
         await productPage.addProductToWishlist(INDEX);
-        await validateWishlist(homePage, wishlistPage, title, deletedPrice, actualPrice, INDEX);
+        await validateWishlist(homePage, wishlistPage, title, deletedPrice, actualPrice);
     })
 
     test('Quick View Throws', async ({  }) => {

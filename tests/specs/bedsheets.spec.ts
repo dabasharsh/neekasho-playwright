@@ -35,7 +35,7 @@ test.describe('Validate Bed Sheets', () => {
 
     test('Wishlist Bedsheet', async ({  }) => {
         await productPage.addProductToWishlist(INDEX);
-        await validateWishlist(homePage, wishlistPage, title, deletedPrice, actualPrice, INDEX);
+        await validateWishlist(homePage, wishlistPage, title, deletedPrice, actualPrice);
     })
 
     test('Quick View Bedsheet', async ({  }) => {

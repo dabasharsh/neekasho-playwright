@@ -6,7 +6,7 @@ import { QuickViewPage } from '../screenobjects/quickview.page';
 import { AddToCartPage } from '../screenobjects/addToCart.page';
 import { validateWishlist, validateQuickView, validateAddToCart } from '../utils/workflows.helper';
 
-test.describe('Validate Bed Sheets', () => {
+test.describe('Validate Quilts', () => {
     let homePage: HomePage;
     let productPage: ProductPage;
     let wishlistPage: WishlistPage;
@@ -35,7 +35,7 @@ test.describe('Validate Bed Sheets', () => {
 
     test('Wishlist Quilts', async ({  }) => {
         await productPage.addProductToWishlist(INDEX);
-        await validateWishlist(homePage, wishlistPage, title, deletedPrice, actualPrice, INDEX);
+        await validateWishlist(homePage, wishlistPage, title, deletedPrice, actualPrice);
     })
 
     test('Quick View Quilts', async ({  }) => {

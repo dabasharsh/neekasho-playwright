@@ -4,12 +4,12 @@ import { expect } from '@playwright/test';
 import { QuickViewPage } from '../screenobjects/quickview.page';
 import { AddToCartPage } from '../screenobjects/addToCart.page';
 
-export async function validateWishlist(homePage: HomePage, wishlistPage: WishlistPage, title: string, deletedPrice: string, actualPrice: string, INDEX: number) {
+export async function validateWishlist(homePage: HomePage, wishlistPage: WishlistPage, title: string, deletedPrice: string, actualPrice: string) {
     expect(await homePage.getWishlistCount()).toBe('1');
     await homePage.clickMyWishlist();
-    expect(await wishlistPage.fetchTitle(INDEX)).toBe(title);
-    expect(await wishlistPage.fetchDeletedPrice(INDEX)).toBe(deletedPrice);
-    expect(await wishlistPage.fetchActualPrice(INDEX)).toBe(actualPrice);
+    expect(await wishlistPage.fetchTitle(0)).toBe(title);
+    expect(await wishlistPage.fetchDeletedPrice(0)).toBe(deletedPrice);
+    expect(await wishlistPage.fetchActualPrice(0)).toBe(actualPrice);
 }
 
 export async function validateQuickView(quickViewPage: QuickViewPage, title: string, deletedPrice: string, actualPrice: string) {

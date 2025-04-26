@@ -6,7 +6,7 @@ import { QuickViewPage } from '../screenobjects/quickview.page';
 import { AddToCartPage } from '../screenobjects/addToCart.page';
 import { CurtainPage } from '../screenobjects/curtain.page';
 
-test.describe('Validate Bed Sheets', () => {
+test.describe('Validate Curtains', () => {
     let homePage: HomePage;
     let productPage: ProductPage;
     let wishlistPage: WishlistPage;
