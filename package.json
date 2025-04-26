@@ -1,0 +1,23 @@
+{
+  "name": "neekasho-playwright",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "test:report:open": "playwright show-report --open",
+    "test:report:html": "playwright show-report --report=html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.14.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0"
+  }
+}
