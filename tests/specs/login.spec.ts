@@ -35,7 +35,7 @@ test.describe('Login Tests', () => {
 
     test.skip('Validate error message for invalid credentials', async ({ page }) => {
         const ERROR_MESSAGE = 'ERROR: The username or password you entered is incorrect. Lost your password?';
-        await loginPage.enterEmail('nekasho007@gmail.com');
+        await loginPage.enterEmail(process.env.EMAIL as string);
         await loginPage.enterPassword('1234567');
         await loginPage.clickSignInBtn();
         expect(await loginPage.getInvalidCredentialsText()).toBe(ERROR_MESSAGE);

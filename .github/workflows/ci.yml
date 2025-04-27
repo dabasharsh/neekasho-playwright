@@ -27,7 +27,11 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run tests
-        run: npx playwright test
+        run: npx playwright test login.spec.ts
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          USERNAME: ${{ secrets.USERNAME }}
         working-directory: ${{ github.workspace }}
 
       - name: Upload test results
