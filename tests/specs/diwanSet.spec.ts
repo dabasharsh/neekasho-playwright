@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test } from '../utils/stealthTest';
 import { HomePage } from '../screenobjects/home.page';
 import { ProductPage } from '../screenobjects/product.page';
 import { WishlistPage } from '../screenobjects/wishlist.page';
@@ -18,7 +18,7 @@ test.describe('Validate Diwan Sets', () => {
     let deletedPrice: string;
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://nekasho.com/');
+        await page.goto('https://nekasho.com/', {timeout: 60000});
         homePage = new HomePage(page);
         productPage = new ProductPage(page);
         wishlistPage = new WishlistPage(page);
@@ -31,6 +31,7 @@ test.describe('Validate Diwan Sets', () => {
         deletedPrice = await productPage.fetchDeletedPrice(INDEX);
         console.log(`Actual Price: ${actualPrice}, Deleted Price: ${deletedPrice}`);
         await productPage.hoverOnProduct(INDEX);
+        await page.waitForTimeout(1000);
     })
 
     test('Wishlist DiwanSet', async ({  }) => {

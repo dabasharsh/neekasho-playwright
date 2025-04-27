@@ -1,12 +1,14 @@
-import { expect, test } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from '../utils/stealthTest';
 import { HomePage } from '../screenobjects/home.page';
 
 test.describe('Nekasho Navigation Tests', () => {
     let homePage: HomePage;
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://nekasho.com/');
+        await page.goto('https://nekasho.com/', {timeout: 60000});
         homePage = new HomePage(page);
+        await page.waitForTimeout(1000);
     });
 
     test('Home', async ({ page }) => {

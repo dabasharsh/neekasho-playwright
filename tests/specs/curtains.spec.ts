@@ -1,4 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from '../utils/stealthTest';
+
 import { HomePage } from '../screenobjects/home.page';
 import { ProductPage } from '../screenobjects/product.page';
 import { WishlistPage } from '../screenobjects/wishlist.page';
@@ -20,7 +22,7 @@ test.describe('Validate Curtains', () => {
     let nine_ft_CurtainPrice: string;
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://nekasho.com/');
+        await page.goto('https://nekasho.com/', {timeout: 60000});
         homePage = new HomePage(page);
         productPage = new ProductPage(page);
         wishlistPage = new WishlistPage(page);
@@ -36,6 +38,7 @@ test.describe('Validate Curtains', () => {
         nine_ft_CurtainPrice = await curtainPage.Nine_ft_CurtainActualPrice(INDEX);
         console.log(`Price Range: ${priceRange}`);
         await productPage.hoverOnProduct(INDEX);
+        await page.waitForTimeout(1000);
     })
 
     test('Wishlist Curtains', async ({ }) => {
