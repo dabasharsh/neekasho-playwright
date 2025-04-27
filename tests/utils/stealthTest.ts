@@ -9,7 +9,7 @@ type MyFixtures = {
 
 const test = base.extend<MyFixtures>({
   browser: async ({}, use) => {
-    const browser = await stealthChromium.launch({ headless: false, slowMo: 500 }); // set to true for CI
+    const browser = await stealthChromium.launch({ headless: true, slowMo: 500 }); // set to true for CI
     await use(browser);
     await browser.close();
   },
