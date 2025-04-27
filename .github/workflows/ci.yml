@@ -22,8 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ${{ github.workspace }}
-
+        
       - name: Run tests
         run: npx playwright test
         working-directory: ${{ github.workspace }}
@@ -32,4 +31,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: test-results
+          name: index.html
+          path: playwright-report
