@@ -24,7 +24,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: Run tests
-        run: npx playwright test --reporter=json > test-results.json
+        run: npx playwright test login.spec.ts --reporter=json > test-results.json
         env:
           EMAIL: '${{ secrets.EMAIL }}'
           PASSWORD: '${{ secrets.PASSWORD }}'
@@ -105,4 +105,4 @@ jobs:
                 Nekasho CI</p>
               </body>
             </html>
-          is_html: true
+          html_body: true
