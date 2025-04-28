@@ -94,7 +94,6 @@ jobs:
               </head>
               <body>
                 <h1>Nekasho - Test Execution Details</h1>
-                <p><strong>Date:</strong> ${DATE}</p>
                 <div class="summary">
                   <h2>Test Execution Summary</h2>
                   <p><span class="passed">✅ Passed:</span> ${{ needs.test.outputs.passed }}</p>
