@@ -1,40 +1,34 @@
 name: Neekasho CI pipeline
-on:
-  workflow_dispatch:
+'on':
+  workflow_dispatch: null
   schedule:
-    - cron: '0 0 * * 1'  # Every Monday at 00:00 UTC
-  push:
-
+    - cron: 0 0 * * 1
+  push: null
 jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      passed: ${{ steps.fetchResult.outputs.PASSED }}
-      failed: ${{ steps.fetchResult.outputs.FAILED }}
-      skipped: ${{ steps.fetchResult.outputs.SKIPPED }}
+      passed: '${{ steps.fetchResult.outputs.PASSED }}'
+      failed: '${{ steps.fetchResult.outputs.FAILED }}'
+      skipped: '${{ steps.fetchResult.outputs.SKIPPED }}'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-
       - name: Install dependencies
         run: npm install
-
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
-
       - name: Run tests
         run: npx playwright test --reporter=json > test-results.json
         env:
-          EMAIL: ${{ secrets.EMAIL }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          USERNAME: ${{ secrets.USERNAME }}
-
+          EMAIL: '${{ secrets.EMAIL }}'
+          PASSWORD: '${{ secrets.PASSWORD }}'
+          USERNAME: '${{ secrets.USERNAME }}'
       - name: Fetch test results
         id: fetchResult
         run: |
@@ -46,14 +40,12 @@ jobs:
           echo "PASSED=$PASSED" >> $GITHUB_OUTPUT
           echo "FAILED=$FAILED" >> $GITHUB_OUTPUT
           echo "SKIPPED=$SKIPPED" >> $GITHUB_OUTPUT
-
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results.json
           path: test-results.json
-
   notification:
     runs-on: ubuntu-latest
     needs: test
@@ -64,14 +56,16 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 465
-          username: ${{ secrets.SEND_MAIL_FROM_USERNAME }}
-          password: ${{ secrets.SEND_MAIL_FROM_PASSWORD }}
-          subject: 'Nekasho - Execution Details'
-          to: ${{ secrets.SEND_MAIL_TO }}
-          from: ${{ secrets.SEND_MAIL_FROM_USERNAME }}
+          username: '${{ secrets.SEND_MAIL_FROM_USERNAME }}'
+          password: '${{ secrets.SEND_MAIL_FROM_PASSWORD }}'
+          subject: Nekasho - Execution Details
+          to: '${{ secrets.SEND_MAIL_TO }}'
+          from: '${{ secrets.SEND_MAIL_FROM_USERNAME }}'
           body: |
+            <!DOCTYPE html>
             <html>
               <head>
+                <meta charset="UTF-8">  <!-- Added character encoding declaration -->
                 <style>
                   h1 {
                     color: #2d87f0;
@@ -96,6 +90,7 @@ jobs:
                     margin-top: 20px;
                   }
                 </style>
+                <title>Test Results</title>
               </head>
               <body>
                 <h1>Nekasho - Test Execution Details</h1>
@@ -106,7 +101,8 @@ jobs:
                   <p><span class="failed">❌ Failed:</span> ${{ needs.test.outputs.failed }}</p>
                   <p><span class="skipped">⚠️ Skipped:</span> ${{ needs.test.outputs.skipped }}</p>
                 </div>
-                <p>Regards,<br>Nekasho CI</p>
+                <p>Regards,<br>
+                Nekasho CI</p>
               </body>
             </html>
           is_html: true
