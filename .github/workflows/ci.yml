@@ -11,6 +11,11 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      passed: ${{ steps.fetchResult.outputs.PASSED }}
+      failed: ${{ steps.fetchResult.outputs.FAILED }}
+      skipped: ${{ steps.fetchResult.outputs.SKIPPED }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,12 +32,19 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run tests
-        run: npx playwright test
+        run: npx playwright test --reporter=json > test-results.json
         env:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
           USERNAME: ${{ secrets.USERNAME }}
-        working-directory: ${{ github.workspace }}
+
+      - name: Fetch test results
+        id: fetchResult
+        run: |
+          STATS=$(cat test-results.json | jq '.stats')
+          echo "PASSED=$(echo "$STATS" | jq '.expected')" >> $GITHUB_OUTPUT
+          echo "FAILED=$(echo "$STATS" | jq '.unexpected')" >> $GITHUB_OUTPUT
+          echo "SKIPPED=$(echo "$STATS" | jq '.skipped')" >> $GITHUB_OUTPUT
 
       - name: Upload test results
         if: always()
