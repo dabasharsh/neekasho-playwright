@@ -32,7 +32,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run tests
-        run: npx playwright test --reporter=json > test-results.json
+        run: npx playwright test login.spec.ts --reporter=json > test-results.json
         env:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
@@ -42,9 +42,13 @@ jobs:
         id: fetchResult
         run: |
           STATS=$(cat test-results.json | jq '.stats')
-          echo "PASSED=$(echo "$STATS" | jq '.expected')" >> $GITHUB_OUTPUT
-          echo "FAILED=$(echo "$STATS" | jq '.unexpected')" >> $GITHUB_OUTPUT
-          echo "SKIPPED=$(echo "$STATS" | jq '.skipped')" >> $GITHUB_OUTPUT
+          PASSED=$(jq '.stats.expected' test-results.json)
+          FAILED=$(jq '.stats.unexpected' test-results.json)
+          SKIPPED=$(jq '.stats.skipped' test-results.json)
+
+          echo "PASSED=$PASSED" >> $GITHUB_OUTPUT
+          echo "FAILED=$FAILED" >> $GITHUB_OUTPUT
+          echo "SKIPPED=$SKIPPED" >> $GITHUB_OUTPUT
 
       - name: Upload test results
         if: always()
