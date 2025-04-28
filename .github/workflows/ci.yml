@@ -1,5 +1,5 @@
 name: Neekasho CI pipeline
-'on':
+on:
   workflow_dispatch: null
   schedule:
     - cron: 0 0 * * 1
@@ -24,7 +24,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
       - name: Run tests
-        run: npx playwright test login.spec.ts --reporter=json > test-results.json
+        run: npx playwright test --reporter=json > test-results.json
         env:
           EMAIL: '${{ secrets.EMAIL }}'
           PASSWORD: '${{ secrets.PASSWORD }}'
@@ -58,50 +58,16 @@ jobs:
           server_port: 465
           username: '${{ secrets.SEND_MAIL_FROM_USERNAME }}'
           password: '${{ secrets.SEND_MAIL_FROM_PASSWORD }}'
-          subject: Nekasho - Execution Details
+          subject: 'Nekasho - Execution Details'
           to: '${{ secrets.SEND_MAIL_TO }}'
           from: '${{ secrets.SEND_MAIL_FROM_USERNAME }}'
           body: |
-            <!DOCTYPE html>
-            <html>
-              <head>
-                <meta charset="UTF-8">  <!-- Added character encoding declaration -->
-                <style>
-                  h1 {
-                    color: #2d87f0;
-                  }
-                  h2 {
-                    color: #444;
-                  }
-                  .passed {
-                    color: #28a745;
-                    font-weight: bold;
-                  }
-                  .failed {
-                    color: #dc3545;
-                    font-weight: bold;
-                  }
-                  .skipped {
-                    color: #ffc107;
-                    font-weight: bold;
-                  }
-                  .summary {
-                    font-size: 1.2em;
-                    margin-top: 20px;
-                  }
-                </style>
-                <title>Test Results</title>
-              </head>
-              <body>
-                <h1>Nekasho - Test Execution Details</h1>
-                <div class="summary">
-                  <h2>Test Execution Summary</h2>
-                  <p><span class="passed">✅ Passed:</span> ${{ needs.test.outputs.passed }}</p>
-                  <p><span class="failed">❌ Failed:</span> ${{ needs.test.outputs.failed }}</p>
-                  <p><span class="skipped">⚠️ Skipped:</span> ${{ needs.test.outputs.skipped }}</p>
-                </div>
-                <p>Regards,<br>
-                Nekasho CI</p>
-              </body>
-            </html>
-          html_body: true
+            Nekasho - Test Execution Details
+
+            Test Execution Summary:
+            ✅ Passed: ${{ needs.test.outputs.passed }}
+            ❌ Failed: ${{ needs.test.outputs.failed }}
+            ⚠️ Skipped: ${{ needs.test.outputs.skipped }}
+
+            Regards,
+            Nekasho CI
